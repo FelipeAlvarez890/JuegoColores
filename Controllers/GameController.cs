@@ -19,6 +19,7 @@ namespace JuegoColores.Controllers
         [HttpGet]
         public IActionResult Setup()
         {
+            TempData.Remove("AlertMessage");
             return View(new SetupViewModel());
         }
 
