@@ -1,17 +1,20 @@
-# Build stage
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /app
+WORKDIR /src
 
-COPY . ./
-RUN dotnet restore
-RUN dotnet publish -c Release -o out
+# Copiar el archivo del proyecto y restaurar dependencias
+COPY ["JuegoColores.csproj", "./"]
+RUN dotnet restore "./JuegoColores.csproj"
 
-# Runtime stage
+# Copiar el resto del código y compilar
+COPY . .
+RUN dotnet publish "JuegoColores.csproj" -c Release -o /app/publish
+
+# Generar la imagen final
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /app
-COPY --from=build /app/out .
+COPY --from=build /app/publish .
 
-ENV ASPNETCORE_URLS=http://+:10000
-EXPOSE 10000
+# Para Render, usamos la variable de entorno PORT
+ENV ASPNETCORE_URLS=http://+:${PORT:-8080}
 
 CMD ["dotnet", "JuegoColores.dll"]
