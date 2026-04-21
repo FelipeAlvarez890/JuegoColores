@@ -29,61 +29,117 @@ namespace JuegoColores.Services
         {
             if (_currentSession == null) return;
 
-            var unplayedPlayers = _currentSession.Players.Where(p => !p.HasParticipated).ToList();
-            if (unplayedPlayers.Any())
+            var unplayedAlivePlayers = _currentSession.Players.Where(p => !p.HasParticipated && !p.IsEliminated).ToList();
+            if (unplayedAlivePlayers.Any())
             {
                 var random = new Random();
-                var nextPlayer = unplayedPlayers[random.Next(unplayedPlayers.Count)];
+                var nextPlayer = unplayedAlivePlayers[random.Next(unplayedAlivePlayers.Count)];
                 _currentSession.CurrentPlayerId = nextPlayer.Id;
             }
             else
             {
-                // Todos jugaron
-                _currentSession.State = GameState.Won;
+                // Todos los vivos ya jugaron su turno.
                 _currentSession.Stopwatch.Stop();
+                
+                if (_currentSession.Mode == GameMode.Collaborative)
+                {
+                    _currentSession.State = GameState.Won;
+                }
+                else
+                {
+                    // Modo Eliminación
+                    var alivePlayers = _currentSession.Players.Count(p => !p.IsEliminated);
+                    if (alivePlayers <= 1)
+                    {
+                        var winner = _currentSession.Players.FirstOrDefault(p => !p.IsEliminated);
+                        _currentSession.CurrentPlayerId = winner?.Id;
+                        _currentSession.State = GameState.Won;
+                    }
+                    else
+                    {
+                        _currentSession.State = GameState.RoundBreak;
+                    }
+                }
             }
         }
 
-        public void SubmitTurn(string word)
+        public void StartNextRound()
         {
-            if (_currentSession == null || _currentSession.State != GameState.Playing) return;
+            if (_currentSession == null || _currentSession.State != GameState.RoundBreak) return;
+
+            foreach (var p in _currentSession.Players.Where(p => !p.IsEliminated))
+            {
+                p.HasParticipated = false;
+                p.WordAnswered = string.Empty; // opcional: limpiar respuesta
+            }
+
+            _currentSession.CurrentRound++;
+            _currentSession.State = GameState.Playing;
+            _currentSession.Stopwatch.Start();
+
+            PickNextPlayer();
+        }
+
+        public string? SubmitTurn(string word)
+        {
+            if (_currentSession == null || _currentSession.State != GameState.Playing) return null;
 
             word = word.Trim().ToLower();
 
-            if (string.IsNullOrEmpty(word)) return;
+            if (string.IsNullOrEmpty(word)) return null;
 
             var currentPlayer = _currentSession.Players.FirstOrDefault(p => p.Id == _currentSession.CurrentPlayerId);
 
-            // Validar si es un color real
-            if (!_validColors.Contains(word))
+            bool isValidColor = _validColors.Contains(word);
+            bool isRepeated = _currentSession.UsedWords.Contains(word);
+
+            string? alertMsg = null;
+
+            if (!isValidColor || isRepeated)
             {
-                _currentSession.State = GameState.Lost;
-                _currentSession.Stopwatch.Stop();
-                _currentSession.LosingPlayerName = currentPlayer?.Name ?? "General";
-                if (currentPlayer != null) currentPlayer.WordAnswered = word + " (Color Inválido)";
-                return;
+                if (_currentSession.Mode == GameMode.Collaborative)
+                {
+                    _currentSession.State = GameState.Lost;
+                    _currentSession.Stopwatch.Stop();
+                    _currentSession.LosingPlayerName = currentPlayer?.Name ?? "General";
+                    if (currentPlayer != null) currentPlayer.WordAnswered = isValidColor ? word + " (Repetido)" : word + " (Color Inválido)";
+                }
+                else
+                {
+                    // Modo Eliminación
+                    if (currentPlayer != null)
+                    {
+                        currentPlayer.IsEliminated = true;
+                        currentPlayer.WordAnswered = isValidColor ? word + " (Repetido)" : word + " (Color Inválido)";
+                        alertMsg = $"¡{currentPlayer.Name} fue eliminado por decir un color {(isValidColor ? "repetido" : "inválido")}!";
+                    }
+                    
+                    var alivePlayers = _currentSession.Players.Count(p => !p.IsEliminated);
+                    if (alivePlayers <= 1)
+                    {
+                        _currentSession.Stopwatch.Stop();
+                        _currentSession.State = GameState.Won;
+                        var winner = _currentSession.Players.FirstOrDefault(p => !p.IsEliminated);
+                        _currentSession.CurrentPlayerId = winner?.Id; // Guardar id del ganador absoluto
+                    }
+                    else
+                    {
+                        PickNextPlayer();
+                    }
+                }
+                return alertMsg;
             }
 
-            // Ocurre error si ya se usó la palabra
-            if (_currentSession.UsedWords.Contains(word))
+            _currentSession.UsedWords.Add(word);
+            
+            if (currentPlayer != null)
             {
-                _currentSession.State = GameState.Lost;
-                _currentSession.Stopwatch.Stop();
-                _currentSession.LosingPlayerName = currentPlayer?.Name ?? "General";
-                if (currentPlayer != null) currentPlayer.WordAnswered = word + " (Repetido)";
+                currentPlayer.HasParticipated = true;
+                currentPlayer.WordAnswered = word;
             }
-            else
-            {
-                _currentSession.UsedWords.Add(word);
-                
-                if (currentPlayer != null)
-                {
-                    currentPlayer.HasParticipated = true;
-                    currentPlayer.WordAnswered = word;
-                }
-                
-                PickNextPlayer();
-            }
+            
+            PickNextPlayer();
+            return null;
         }
         
         public void ClearSession()

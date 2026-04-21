@@ -86,5 +86,29 @@
     "TotalTimeSeconds": 5.1178529,
     "Result": "Lost",
     "DatePlayed": "2026-04-21T22:32:25.2382175Z"
+  },
+  {
+    "Id": "ec008f26-f2fd-4b16-988b-8ab967638c9c",
+    "Topic": "Colores",
+    "PlayerCount": 3,
+    "TotalTimeSeconds": 9.280209,
+    "Result": "Won",
+    "DatePlayed": "2026-04-21T23:08:10.7782834Z"
+  },
+  {
+    "Id": "ef95a50b-637f-4ac2-ba2b-5958ad813140",
+    "Topic": "Colores",
+    "PlayerCount": 3,
+    "TotalTimeSeconds": 8.6655013,
+    "Result": "Won",
+    "DatePlayed": "2026-04-21T23:10:29.9472417Z"
+  },
+  {
+    "Id": "b68c0dcd-3f8e-4f01-bdcd-16bdd85c4ae2",
+    "Topic": "Colores",
+    "PlayerCount": 2,
+    "TotalTimeSeconds": 16.174914,
+    "Result": "Won",
+    "DatePlayed": "2026-04-21T23:11:00.6704883Z"
   }
 ]

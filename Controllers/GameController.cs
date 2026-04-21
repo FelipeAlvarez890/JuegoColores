@@ -45,6 +45,7 @@ namespace JuegoColores.Controllers
                 var session = new GameSession
                 {
                     Topic = "Colores",
+                    Mode = model.SelectedMode,
                     Players = validNames.Select(n => new Player { Name = n }).ToList()
                 };
 
@@ -78,7 +79,11 @@ namespace JuegoColores.Controllers
                 return RedirectToAction("Play");
             }
 
-            _gameService.SubmitTurn(word);
+            var alert = _gameService.SubmitTurn(word);
+            if (!string.IsNullOrEmpty(alert))
+            {
+                TempData["AlertMessage"] = alert;
+            }
 
             var session = _gameService.GetCurrentSession();
             if (session?.State == GameState.Won || session?.State == GameState.Lost)
@@ -106,6 +111,13 @@ namespace JuegoColores.Controllers
             if (session == null) return RedirectToAction("Setup");
 
             return View(session);
+        }
+
+        [HttpPost]
+        public IActionResult StartNextRound()
+        {
+            _gameService.StartNextRound();
+            return RedirectToAction("Play");
         }
 
         [HttpPost]

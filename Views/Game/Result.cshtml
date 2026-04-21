@@ -19,8 +19,17 @@
                 
                 @if (isWin)
                 {
-                    <h3 class="mb-4 text-dark">¡El equipo ha superado el desafío!</h3>
-                    <p class="fs-5 text-muted">Todos los jugadores lograron decir una palabra sin repetir.</p>
+                    if (Model.Mode == JuegoColores.Models.GameMode.Elimination)
+                    {
+                        var winner = Model.Players.FirstOrDefault(p => !p.IsEliminated);
+                        <h3 class="mb-4 text-dark">¡Tenemos un Sobreviviente!</h3>
+                        <p class="fs-4 text-primary fw-bold display-6">@winner?.Name ha ganado el juego tras @Model.CurrentRound rondas.</p>
+                    }
+                    else
+                    {
+                        <h3 class="mb-4 text-dark">¡El equipo ha superado el desafío!</h3>
+                        <p class="fs-5 text-muted">Todos los jugadores lograron decir una palabra sin repetir.</p>
+                    }
                 }
                 else
                 {
@@ -48,7 +57,17 @@
                         @foreach(var player in Model.Players)
                         {
                             <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center fs-5">
-                                <span class="fw-bold">@player.Name</span>
+                                <div>
+                                    <span class="fw-bold @(player.IsEliminated ? "text-danger text-decoration-line-through" : "")">@player.Name</span>
+                                    @if(player.IsEliminated)
+                                    {
+                                        <span class="badge bg-danger ms-2">Eliminado</span>
+                                    }
+                                    else if(Model.Mode == JuegoColores.Models.GameMode.Elimination && isWin)
+                                    {
+                                        <span class="badge bg-warning text-dark ms-2">👑 Ganador</span>
+                                    }
+                                </div>
                                 @if(!string.IsNullOrEmpty(player.WordAnswered))
                                 {
                                     <span class="badge bg-primary rounded-pill">@player.WordAnswered</span>

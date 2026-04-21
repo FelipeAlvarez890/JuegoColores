@@ -2,10 +2,17 @@ using System.Diagnostics;
 
 namespace JuegoColores.Models
 {
+    public enum GameMode
+    {
+        Collaborative,
+        Elimination
+    }
+
     public enum GameState
     {
         Setup,
         Playing,
+        RoundBreak,
         Won,
         Lost
     }
@@ -14,6 +21,8 @@ namespace JuegoColores.Models
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Topic { get; set; } = string.Empty;
+        public GameMode Mode { get; set; } = GameMode.Collaborative;
+        public int CurrentRound { get; set; } = 1;
         public List<Player> Players { get; set; } = new List<Player>();
         public GameState State { get; set; } = GameState.Setup;
         public string? CurrentPlayerId { get; set; }
