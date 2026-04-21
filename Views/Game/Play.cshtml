@@ -1,0 +1,89 @@
+@model JuegoColores.Models.GameSession
+
+@{
+    ViewData["Title"] = "Jugando";
+    var currentPlayer = Model.Players.FirstOrDefault(p => p.Id == Model.CurrentPlayerId);
+}
+
+<div class="text-center mt-3">
+    <div class="badge bg-secondary mb-2 fs-5">Tema: @Model.Topic</div>
+    
+    <div class="my-4">
+        <h2 class="text-muted fw-bold mb-1">Turno de:</h2>
+        <h1 class="display-1 fw-bold text-primary animate-pulse">@(currentPlayer?.Name ?? "N/A")</h1>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center mb-5">
+        <div class="display-4 fw-bold font-monospace bg-dark text-white rounded p-3 shadow-lg" id="timer-display">
+            00:00.0
+        </div>
+    </div>
+
+    <div class="row justify-content-center g-4">
+        <div class="col-md-6 col-lg-5">
+            <div class="card border-0 shadow-lg p-3 bg-light rounded-4">
+                <form asp-action="SubmitTurn" method="post" id="turn-form">
+                    <div class="mb-4">
+                        <label for="word" class="form-label fw-bold">Palabra dicha (requerida)</label>
+                        <input type="text" id="word" name="word" class="form-control form-control-lg text-center fs-3" autocomplete="off" required />
+                    </div>
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg py-4 fw-bold fs-4 rounded-3 shadow-sm">
+                            Siguiente ➡️
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @if(Model.UsedWords.Any())
+    {
+        <div class="mt-5 text-start w-50 mx-auto">
+            <h5 class="text-muted border-bottom pb-2">Palabras ya dichas (@Model.UsedWords.Count)</h5>
+            <div class="d-flex flex-wrap gap-2 mt-3">
+                @foreach(var w in Model.UsedWords)
+                {
+                    <span class="badge bg-info text-dark fs-6">@w</span>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        const initialSeconds = @(Model.Stopwatch.Elapsed.TotalSeconds.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        const startTime = Date.now() - (initialSeconds * 1000);
+
+        function updateTimer() {
+            const now = Date.now();
+            const elapsed = Math.floor((now - startTime) / 100); // Decimas de segundo
+            
+            const deciseconds = elapsed % 10;
+            const seconds = Math.floor(elapsed / 10) % 60;
+            const minutes = Math.floor(elapsed / 600);
+
+            document.getElementById('timer-display').innerText = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${deciseconds}`;
+            
+            requestAnimationFrame(updateTimer);
+        }
+
+        requestAnimationFrame(updateTimer);
+
+        // Focus en el campo de palabra
+        document.getElementById('word').focus();
+    </script>
+    <style>
+        .animate-pulse {
+            animation: pulse-animation 2s infinite;
+        }
+        @@keyframes pulse-animation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); color: #0d6efd; }
+            100% { transform: scale(1); }
+        }
+    </style>
+}

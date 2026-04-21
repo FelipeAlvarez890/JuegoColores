@@ -1,0 +1,17 @@
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<div class="text-center mt-5">
+    <h1 class="display-3 fw-bold text-primary mb-4">Juego de Agilidad y Memoria</h1>
+    <p class="lead">Un juego grupal de velocidad, creatividad y memoria colaborativa. ¡Superen la prueba sin repetir o decir palabras inválidas!</p>
+    
+    <div class="mt-5">
+        <a asp-controller="Game" asp-action="Setup" class="btn btn-lg btn-success mx-2 shadow-sm rounded-pill px-5 py-3 fs-4">
+            Empezar Partida
+        </a>
+        <a asp-controller="Leaderboard" asp-action="Index" class="btn btn-lg btn-outline-primary mx-2 shadow-sm rounded-pill px-5 py-3 fs-4">
+            Ver Leaderboard
+        </a>
+    </div>
+</div>

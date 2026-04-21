@@ -1,0 +1,58 @@
+[
+  {
+    "Id": "88580dd0-9753-4b96-854d-94409eca0253",
+    "Topic": "Colores",
+    "PlayerCount": 3,
+    "TotalTimeSeconds": 14.153298,
+    "Result": "Won",
+    "DatePlayed": "2026-04-21T22:12:15.8760124Z"
+  },
+  {
+    "Id": "96f94ce8-8579-472d-b834-5016d293f89b",
+    "Topic": "Colores",
+    "PlayerCount": 2,
+    "TotalTimeSeconds": 11.0713913,
+    "Result": "Lost",
+    "DatePlayed": "2026-04-21T22:12:43.2376483Z"
+  },
+  {
+    "Id": "a1902b48-832c-4c4e-8802-244c1492b3c8",
+    "Topic": "Colores",
+    "PlayerCount": 2,
+    "TotalTimeSeconds": 6.1852651,
+    "Result": "Won",
+    "DatePlayed": "2026-04-21T22:20:35.765816Z"
+  },
+  {
+    "Id": "493164b2-ab5a-4d42-a0d9-40e5164459ff",
+    "Topic": "Colores",
+    "PlayerCount": 2,
+    "TotalTimeSeconds": 8.8805778,
+    "Result": "Won",
+    "DatePlayed": "2026-04-21T22:21:02.6431431Z"
+  },
+  {
+    "Id": "3277a94a-e0c4-4d5a-9b8f-0c800ef09393",
+    "Topic": "Colores",
+    "PlayerCount": 2,
+    "TotalTimeSeconds": 8.2257168,
+    "Result": "Lost",
+    "DatePlayed": "2026-04-21T22:21:23.3985453Z"
+  },
+  {
+    "Id": "881a61e1-e97e-43e8-bbcf-8b9a3a2ac8bd",
+    "Topic": "Colores",
+    "PlayerCount": 2,
+    "TotalTimeSeconds": 5.0471898,
+    "Result": "Lost",
+    "DatePlayed": "2026-04-21T22:27:22.466601Z"
+  },
+  {
+    "Id": "cecb17af-3c0d-4f64-b5dd-d27b09cc2dfa",
+    "Topic": "Colores",
+    "PlayerCount": 3,
+    "TotalTimeSeconds": 5.0324833,
+    "Result": "Won",
+    "DatePlayed": "2026-04-21T22:27:42.1343554Z"
+  }
+]

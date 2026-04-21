@@ -1,0 +1,75 @@
+@model JuegoColores.Models.GameSession
+
+@{
+    ViewData["Title"] = "Resultado de la Partida";
+    bool isWin = Model.State == JuegoColores.Models.GameState.Won;
+    var bgClass = isWin ? "bg-success" : "bg-danger";
+    var textClass = isWin ? "text-success" : "text-danger";
+    var emoji = isWin ? "🎉" : "💥";
+    var timeStr = string.Format("{0:mm':'ss'.'f}", Model.Stopwatch.Elapsed);
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-8 col-lg-6 text-center">
+        <div class="card border-0 shadow-lg rounded-5 overflow-hidden">
+            <div class="card-header @bgClass text-white py-4">
+                <h1 class="display-4 fw-bold mb-0">@(isWin ? "¡VICTORIA!" : "¡DERROTA!") @emoji</h1>
+            </div>
+            <div class="card-body p-5">
+                
+                @if (isWin)
+                {
+                    <h3 class="mb-4 text-dark">¡El equipo ha superado el desafío!</h3>
+                    <p class="fs-5 text-muted">Todos los jugadores lograron decir una palabra sin repetir.</p>
+                }
+                else
+                {
+                    <h3 class="mb-4 text-dark">Alguien se equivocó...</h3>
+                    <div class="alert alert-danger fs-4 fw-bold mb-4 py-3">
+                        El jugador que falló fue:<br />
+                        <span class="display-6">@Model.LosingPlayerName</span>
+                    </div>
+                }
+
+                <div class="row text-center mt-5 mb-4">
+                    <div class="col-6 border-end">
+                        <p class="text-muted text-uppercase mb-1 fw-semibold">Tiempo Total</p>
+                        <p class="fs-1 fw-bold font-monospace @textClass">@timeStr</p>
+                    </div>
+                    <div class="col-6">
+                        <p class="text-muted text-uppercase mb-1 fw-semibold">Jugadores</p>
+                        <p class="fs-1 fw-bold text-dark">@Model.Players.Count</p>
+                    </div>
+                </div>
+
+                <div class="mt-4 mb-5 text-start bg-light p-4 rounded-4 shadow-sm border">
+                    <h4 class="mb-3 border-bottom pb-2">Respuestas de la Ronda</h4>
+                    <ul class="list-group list-group-flush bg-transparent">
+                        @foreach(var player in Model.Players)
+                        {
+                            <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center fs-5">
+                                <span class="fw-bold">@player.Name</span>
+                                @if(!string.IsNullOrEmpty(player.WordAnswered))
+                                {
+                                    <span class="badge bg-primary rounded-pill">@player.WordAnswered</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted fst-italic">Sin responder</span>
+                                }
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="mt-5 d-flex flex-column gap-3">
+                    <form asp-action="EndSession" method="post">
+                        <button type="submit" class="btn btn-outline-secondary w-100 btn-lg rounded-pill fw-bold">Volver al Inicio</button>
+                    </form>
+                    <a asp-action="Setup" class="btn btn-primary btn-lg rounded-pill shadow-sm fw-bold">Jugar De Nuevo</a>
+                    <a asp-controller="Leaderboard" asp-action="Index" class="btn btn-info text-white btn-lg rounded-pill shadow-sm fw-bold">Ver Leaderboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
