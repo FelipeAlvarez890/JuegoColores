@@ -2,6 +2,9 @@ using JuegoColores.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<GameService>();
@@ -18,7 +21,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+// Removido UseHttpsRedirection porque Render maneja el SSL internamente
 app.UseStaticFiles();
 
 app.UseRouting();
