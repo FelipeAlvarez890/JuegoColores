@@ -26,8 +26,8 @@
                         <table class="table table-hover table-striped mb-0 text-center align-middle">
                             <thead class="table-dark">
                                 <tr>
-                                    <th scope="col" class="py-3">Fecha</th>
-                                    <th scope="col" class="py-3">Temática</th>
+                                    <th scope="col" class="py-3">Modo</th>
+                                    <th scope="col" class="py-3">Rondas</th>
                                     <th scope="col" class="py-3">Jugadores</th>
                                     <th scope="col" class="py-3">Tiempo Total</th>
                                     <th scope="col" class="py-3">Resultado</th>
@@ -38,8 +38,8 @@
                                 {
                                     bool isWin = entry.Result == "Won";
                                     <tr>
-                                        <td class="text-muted">@entry.DatePlayed.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
-                                        <td class="fw-bold">@entry.Topic</td>
+                                        <td class="fw-bold">@(entry.Mode == JuegoColores.Models.GameMode.Elimination ? "Supervivencia" : "Cooperativo")</td>
+                                        <td>@entry.TotalRounds</td>
                                         <td>@entry.PlayerCount 👤</td>
                                         <td class="font-monospace fw-bold @((isWin) ? "text-success" : "text-danger")">
                                             @TimeSpan.FromSeconds(entry.TotalTimeSeconds).ToString(@"mm\:ss\.ff")

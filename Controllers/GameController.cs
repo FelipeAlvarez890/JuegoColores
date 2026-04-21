@@ -92,6 +92,8 @@ namespace JuegoColores.Controllers
                 // Guardar en leaderboard
                 var entry = new LeaderboardEntry
                 {
+                    Mode = session.Mode,
+                    TotalRounds = session.CurrentRound,
                     Topic = session.Topic,
                     PlayerCount = session.Players.Count,
                     TotalTimeSeconds = session.Stopwatch.Elapsed.TotalSeconds,

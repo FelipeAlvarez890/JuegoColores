@@ -1,0 +1,59 @@
+@{
+    ViewData["Title"] = "Stack Tecnológico";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-lg rounded-4">
+            <div class="card-header bg-dark text-white rounded-top-4 py-4 text-center">
+                <h2 class="mb-0 fw-bold">🚀 Stack Tecnológico</h2>
+            </div>
+            <div class="card-body p-5">
+                <p class="lead text-center mb-5">Esta aplicación fue construida utilizando herramientas modernas y robustas para garantizar rendimiento y escalabilidad.</p>
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="p-4 bg-light rounded-4 h-100 border text-center">
+                            <h4 class="fw-bold text-primary">Back-End</h4>
+                            <p class="mt-3">
+                                <strong>C# y ASP.NET Core MVC</strong><br/>
+                                Construida con el robusto framework de Microsoft en su versión .NET 7.0. Se utiliza el patrón Arquitectónico Modelo-Vista-Controlador.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-4 bg-light rounded-4 h-100 border text-center">
+                            <h4 class="fw-bold text-success">Front-End</h4>
+                            <p class="mt-3">
+                                <strong>Razor Pages, HTML5 y Bootstrap 5</strong><br/>
+                                La interfaz está renderizada por el servidor garantizando SEO y rapidez, usando CSS para microanimaciones y adaptación a dispositivos móviles.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-4 bg-light rounded-4 h-100 border text-center">
+                            <h4 class="fw-bold text-warning">Almacenamiento</h4>
+                            <p class="mt-3">
+                                <strong>In-Memory & JSON Data</strong><br/>
+                                Para lograr un rendimiento ultrarápido sin latencia de red, las sesiones activas se manejan en caché Singleton. El Leaderboard se persiste usando System.Text.Json.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-4 bg-light rounded-4 h-100 border text-center">
+                            <h4 class="fw-bold text-info">Despliegue</h4>
+                            <p class="mt-3">
+                                <strong>Docker & Render.com</strong><br/>
+                                La aplicación se encuentra dockerizada usando las imágenes MCR de Microsoft e inteconectada con GitHub Actions para integración continua.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-5">
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-dark rounded-pill px-5">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

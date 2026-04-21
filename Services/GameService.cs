@@ -136,6 +136,7 @@ namespace JuegoColores.Services
             {
                 currentPlayer.HasParticipated = true;
                 currentPlayer.WordAnswered = word;
+                currentPlayer.AllAnsweredWords.Add(word);
             }
             
             PickNextPlayer();

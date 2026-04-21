@@ -7,5 +7,6 @@ namespace JuegoColores.Models
         public bool HasParticipated { get; set; } = false;
         public bool IsEliminated { get; set; } = false;
         public string WordAnswered { get; set; } = string.Empty;
+        public List<string> AllAnsweredWords { get; set; } = new List<string>();
     }
 }

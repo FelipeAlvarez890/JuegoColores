@@ -68,14 +68,27 @@
                                         <span class="badge bg-warning text-dark ms-2">👑 Ganador</span>
                                     }
                                 </div>
-                                @if(!string.IsNullOrEmpty(player.WordAnswered))
-                                {
-                                    <span class="badge bg-primary rounded-pill">@player.WordAnswered</span>
-                                }
-                                else
-                                {
-                                    <span class="text-muted fst-italic">Sin responder</span>
-                                }
+                                <div class="d-flex flex-wrap gap-1 justify-content-end w-50">
+                                    @if(player.AllAnsweredWords.Any())
+                                    {
+                                        foreach(var w in player.AllAnsweredWords)
+                                        {
+                                            <span class="badge bg-primary rounded-pill">@w</span>
+                                        }
+                                        if (player.IsEliminated && !string.IsNullOrEmpty(player.WordAnswered) && !player.AllAnsweredWords.Contains(player.WordAnswered))
+                                        {
+                                            <span class="badge bg-danger rounded-pill">@player.WordAnswered</span>
+                                        }
+                                    }
+                                    else if (!string.IsNullOrEmpty(player.WordAnswered))
+                                    {
+                                         <span class="badge bg-danger rounded-pill">@player.WordAnswered</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted fst-italic">Sin responder</span>
+                                    }
+                                </div>
                             </li>
                         }
                     </ul>
