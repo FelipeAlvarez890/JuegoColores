@@ -44,7 +44,7 @@ namespace JuegoColores.Controllers
 
                 var session = new GameSession
                 {
-                    Topic = model.Topic,
+                    Topic = "Colores",
                     Players = validNames.Select(n => new Player { Name = n }).ToList()
                 };
 
