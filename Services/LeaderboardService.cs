@@ -22,5 +22,17 @@ namespace JuegoColores.Services
             var json = JsonSerializer.Serialize(entries, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(_filePath, json);
         }
+
+        public void UpdateAnnotation(string id, string annotation)
+        {
+            var entries = GetEntries();
+            var entry = entries.FirstOrDefault(e => e.Id == id);
+            if (entry != null)
+            {
+                entry.Annotation = annotation;
+                var json = JsonSerializer.Serialize(entries, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(_filePath, json);
+            }
+        }
     }
 }

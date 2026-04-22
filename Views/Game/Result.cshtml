@@ -92,6 +92,15 @@
                             </li>
                         }
                     </ul>
+                    <div class="mt-4 text-start border-top pt-4">
+                        <h5 class="fw-bold text-muted mb-3"><i class="bi bi-pencil-square"></i> Dejar una nota en esta partida</h5>
+                        <form asp-action="AddAnnotation" method="post" class="d-flex flex-column gap-3">
+                            <textarea name="annotation" class="form-control bg-light fs-5" rows="2" placeholder="Agrega un comentario (Ej. 'Jugamos con la regla de 2 segundos')."></textarea>
+                            <div>
+                                <button type="submit" class="btn btn-outline-success">Guardar Nota y Ver Récords</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
 
                 <div class="mt-5 d-flex flex-column gap-3">

@@ -47,6 +47,7 @@ namespace JuegoColores.Controllers
                 {
                     Topic = "Colores",
                     Mode = model.SelectedMode,
+                    ShowUsedWords = model.ShowUsedWords,
                     Players = validNames.Select(n => new Player { Name = n }).ToList()
                 };
 
@@ -100,6 +101,7 @@ namespace JuegoColores.Controllers
                     Result = session.State.ToString()
                 };
                 _leaderboardService.AddEntry(entry);
+                session.LeaderboardEntryId = entry.Id;
 
                 return RedirectToAction("Result");
             }
@@ -128,6 +130,17 @@ namespace JuegoColores.Controllers
         {
             _gameService.ClearSession();
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public IActionResult AddAnnotation(string annotation)
+        {
+            var session = _gameService.GetCurrentSession();
+            if (session != null && !string.IsNullOrEmpty(session.LeaderboardEntryId) && !string.IsNullOrWhiteSpace(annotation))
+            {
+                _leaderboardService.UpdateAnnotation(session.LeaderboardEntryId, annotation);
+            }
+            return RedirectToAction("Index", "Leaderboard");
         }
     }
 }

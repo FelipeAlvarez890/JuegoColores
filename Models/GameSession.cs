@@ -23,6 +23,7 @@ namespace JuegoColores.Models
         public string Topic { get; set; } = string.Empty;
         public GameMode Mode { get; set; } = GameMode.Collaborative;
         public int CurrentRound { get; set; } = 1;
+        public string? LeaderboardEntryId { get; set; }
         public List<Player> Players { get; set; } = new List<Player>();
         public GameState State { get; set; } = GameState.Setup;
         public string? CurrentPlayerId { get; set; }

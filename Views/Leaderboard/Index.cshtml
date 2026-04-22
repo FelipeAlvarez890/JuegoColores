@@ -55,6 +55,14 @@
                                             }
                                         </td>
                                     </tr>
+                                    @if (!string.IsNullOrEmpty(entry.Annotation))
+                                    {
+                                        <tr>
+                                            <td colspan="5" class="text-start bg-light fst-italic text-muted pt-2 pb-3 ps-4 border-bottom">
+                                                <span class="fw-bold text-dark">Nota:</span> @entry.Annotation
+                                            </td>
+                                        </tr>
+                                    }
                                 }
                             </tbody>
                         </table>

@@ -9,6 +9,7 @@ namespace JuegoColores.Models
         public int PlayerCount { get; set; }
         public double TotalTimeSeconds { get; set; }
         public string Result { get; set; } = "Won"; // "Won" o "Lost"
+        public string? Annotation { get; set; }
         public DateTime DatePlayed { get; set; } = DateTime.UtcNow;
     }
 }
